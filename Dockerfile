@@ -19,7 +19,7 @@ RUN --mount=type=cache,target=/var/cache/yarn \
 
 COPY . .
 
-RUN yarn build
+RUN yarn build:prod
 
 ENV PORT 3000
 EXPOSE 3000
