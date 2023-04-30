@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import zenginCode from "zengin-code";
 
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
@@ -155,6 +156,26 @@ export const apiRoute = async (fastify) => {
     await userRepo.save(req.user);
 
     res.send(bettingTicket);
+  });
+
+  fastify.get("/zengin/banklist", async (req, res) => {
+    const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
+      code,
+      name,
+    }));
+    res.send(bankList);
+  });
+
+  fastify.get("/zengin/bank/:bankCode", async (req, res) => {
+    const bankCode = req.params.bankCode;
+    if (req.params.bankCode == null) {
+      throw fastify.httpErrors.badRequest();
+    }
+    const bank = zenginCode[bankCode];
+    if (!bank) {
+      throw fastify.httpErrors.badRequest();
+    }
+    res.send(bank);
   });
 
   fastify.post("/initialize", async (_req, res) => {
