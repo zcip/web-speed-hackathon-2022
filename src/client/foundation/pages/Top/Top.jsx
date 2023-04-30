@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { difference } from "lodash";
 import moment from "moment-timezone";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -31,7 +31,7 @@ function useTodayRacesWithAnimation(races) {
 
   useEffect(() => {
     const isRacesUpdate =
-      _.difference(
+      difference(
         races.map((e) => e.id),
         prevRaces.current.map((e) => e.id),
       ).length !== 0;
@@ -62,7 +62,7 @@ function useTodayRacesWithAnimation(races) {
       }
 
       numberOfRacesToShow.current++;
-      setRacesToShow(_.slice(races, 0, numberOfRacesToShow.current));
+      setRacesToShow([...races].slice(0, numberOfRacesToShow.current));
     }, 100);
   }, [isRacesUpdate, races]);
 
@@ -76,7 +76,6 @@ function useTodayRacesWithAnimation(races) {
 
   return racesToShow;
 }
-
 
 /** @type {React.VFC} */
 export const Top = () => {
@@ -129,7 +128,7 @@ export const Top = () => {
 
   return (
     <Container>
-      <HeroImage url={'/assets/images/hero.webp'} />
+      <HeroImage url={"/assets/images/hero.webp"} />
 
       <Spacer mt={Space * 2} />
       {userData && (
