@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { difference } from "lodash";
+import difference from "lodash-es/difference";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";

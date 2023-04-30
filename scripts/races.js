@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import _ from "lodash";
+import sample from "lodash-es/sample";
 import { v4 as uuid } from "uuid";
 
 import { Race } from "../src/model/index.js";
@@ -66,7 +66,7 @@ export async function insertRaces(startDate, endDate) {
             3,
             "0",
           )}.jpg`,
-          name: _.sample(NAMES),
+          name: sample(NAMES),
           startAt: startAt.toDate(),
         }),
       );
