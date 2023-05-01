@@ -69,9 +69,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   );
 
   const { data: bankList } = useFetch("/api/zengin/banklist", jsonFetcher);
-  const { data: bank } = useFetch(`/api/zengin/bank/${bankCode}`, jsonFetcher);
+  const { data: bank, error: bankError } = useFetch(bankCode ? `/api/zengin/bank/${bankCode}` : null, jsonFetcher);
 
-  const branch = bank?.branches[branchCode];
+  const branch = bank?.branches?.[branchCode];
 
   if (bankList == null) {
     return (
@@ -120,7 +120,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </label>
 
             <datalist id="ChargeDialog-branch-list">
-              {bank != null &&
+              {bank != null && bankError === null && 
                 Object.values(bank.branches).map((branch) => (
                   <option key={branch.code} value={branch.code}>
                     {branch.name}
