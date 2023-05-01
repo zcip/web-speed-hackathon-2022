@@ -4651,6 +4651,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fontverter@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "fontverter@npm:2.0.0"
+  dependencies:
+    wawoff2: ^2.0.0
+    woff2sfnt-sfnt2woff: ^1.0.0
+  checksum: 3dbfcc0023a6af401a34c248b965fdc4abacb6cb738b7eed56d7440b672f029b24c709975f7f3648c3d86bcc08fa6c6fca3762f286ceb9d73920e7b5f6ec0b76
+  languageName: node
+  linkType: hard
+
 "for-each@npm:^0.3.3":
   version: 0.3.3
   resolution: "for-each@npm:0.3.3"
@@ -5036,6 +5046,13 @@ __metadata:
   version: 2.1.0
   resolution: "hard-rejection@npm:2.1.0"
   checksum: 7baaf80a0c7fff4ca79687b4060113f1529589852152fa935e6787a2bc96211e784ad4588fb3048136ff8ffc9dfcf3ae385314a5b24db32de20bea0d1597f9dc
+  languageName: node
+  linkType: hard
+
+"harfbuzzjs@npm:^0.3.2":
+  version: 0.3.3
+  resolution: "harfbuzzjs@npm:0.3.3"
+  checksum: 2f17d536d339538312c2fdd2da825d5533ced4d923f4ad02bfabce8acc74c249b95290593dc5aa78e760a4f2906552a6c47e16a1122a4ae4780c1958792f043a
   languageName: node
   linkType: hard
 
@@ -7076,6 +7093,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pako@npm:^1.0.7":
+  version: 1.0.11
+  resolution: "pako@npm:1.0.11"
+  checksum: 1be2bfa1f807608c7538afa15d6f25baa523c30ec870a3228a89579e474a4d992f4293859524e46d5d87fd30fa17c5edf34dbef0671251d9749820b488660b16
+  languageName: node
+  linkType: hard
+
 "param-case@npm:^3.0.4":
   version: 3.0.4
   resolution: "param-case@npm:3.0.4"
@@ -8874,6 +8898,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"subset-font@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "subset-font@npm:2.1.0"
+  dependencies:
+    fontverter: ^2.0.0
+    harfbuzzjs: ^0.3.2
+    lodash: ^4.17.21
+    p-limit: ^3.1.0
+  checksum: 70544e4d024c10c5de1c68569f43842e8321d224240d4867b169cda61ae480c82a43775b8c58ff85a2d746e0ff918e58aa70b86a8523144c6faa3e19d866e181
+  languageName: node
+  linkType: hard
+
 "supports-color@npm:^5.3.0, supports-color@npm:^5.5.0":
   version: 5.5.0
   resolution: "supports-color@npm:5.5.0"
@@ -9691,6 +9727,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"wawoff2@npm:^2.0.0":
+  version: 2.0.1
+  resolution: "wawoff2@npm:2.0.1"
+  dependencies:
+    argparse: ^2.0.1
+  bin:
+    woff2_compress.js: bin/woff2_compress.js
+    woff2_decompress.js: bin/woff2_decompress.js
+  checksum: 7fbe0c5968713afc2f2fe854e94eec2424d90f2f76d9515ab50455dd9e446dbfb5a46a9fefc7b861dcbd68cb319cfdc084c6336ec3fbefab553d26ced839edf1
+  languageName: node
+  linkType: hard
+
 "wcwidth@npm:^1.0.1":
   version: 1.0.1
   resolution: "wcwidth@npm:1.0.1"
@@ -9753,6 +9801,7 @@ __metadata:
     stylelint-config-recommended: ^7.0.0
     stylelint-config-styled-components: ^0.1.1
     stylelint-order: ^5.0.0
+    subset-font: ^2.1.0
     ts-node: ^10.9.1
     typeorm: ^0.2.44
     typescript: ^4.6.2
@@ -9968,6 +10017,15 @@ __metadata:
   version: 2.0.1
   resolution: "wildcard@npm:2.0.1"
   checksum: e0c60a12a219e4b12065d1199802d81c27b841ed6ad6d9d28240980c73ceec6f856771d575af367cbec2982d9ae7838759168b551776577f155044f5a5ba843c
+  languageName: node
+  linkType: hard
+
+"woff2sfnt-sfnt2woff@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "woff2sfnt-sfnt2woff@npm:1.0.0"
+  dependencies:
+    pako: ^1.0.7
+  checksum: 7c558ce8e1b956d39047e78bf07b35b5a9545ad3750fdc82e1fa9c2b559a58fe5cf17f103199dbd42411ce5f0ad5f133cb55ef101e64112545539119666d41f8
   languageName: node
   linkType: hard
 
