@@ -3,10 +3,11 @@ import React, { useCallback, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import SvgIcon from "../../../components/SvgIcon";
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
-import { TrimmedImage } from "../../../components/media/TrimmedImage";
+import { ImageW16H9 } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
@@ -17,7 +18,6 @@ import { jsonFetcher } from "../../../utils/HttpUtils";
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
 import { TicketVendingModal } from "./internal/TicketVendingModal";
-import SvgIcon from "../../../components/SvgIcon";
 
 const LiveBadge = styled.span`
   background: ${Color.red};
@@ -77,7 +77,7 @@ export const Odds = () => {
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <TrimmedImage height={225} src={data.image} width={400} />
+        <ImageW16H9 height={225} src={data.image} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
