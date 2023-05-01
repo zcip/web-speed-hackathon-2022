@@ -7,6 +7,25 @@ import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
 
 /**
+ * 与えられたレースオブジェクトの画像URLの拡張子をjpgからwebpに変更する
+ * @param {Race} race - 変更する画像URLを含むレースオブジェクト
+ * @returns {Race} 拡張子をwebpに変更したレースオブジェクト
+ */
+function jpgToWebp(race) {
+  return {
+    ...race,
+    entries: race.entries?.map((entry) => ({
+      ...entry,
+      player: {
+        ...entry.player,
+        image: entry.player.image.replace(/jpg$/, "webp"),
+      },
+    })),
+    image: race.image.replace(/jpg$/, "webp"),
+  };
+}
+
+/**
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
@@ -76,7 +95,9 @@ export const apiRoute = async (fastify) => {
       where,
     });
 
-    res.send({ races });
+    const racesWithWebp = races.map((race) => jpgToWebp(race));
+
+    res.send({ races: racesWithWebp });
   });
 
   fastify.get("/races/:raceId", async (req, res) => {
@@ -90,7 +111,7 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.notFound();
     }
 
-    res.send(race);
+    res.send(jpgToWebp(race));
   });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
