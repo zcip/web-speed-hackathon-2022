@@ -67,6 +67,7 @@ const RankNo = styled.div`
 
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
+  // TODO: DB操作で行うとAPIの容量もjsの実行も減らせる/現状41.2kB
   const sortedOdds = take(
     sortBy(odds, (item) => item.odds),
     50,
