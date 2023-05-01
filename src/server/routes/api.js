@@ -29,14 +29,18 @@ function jpgToWebp(race) {
  * @type {import('fastify').FastifyPluginCallback}
  */
 export const apiRoute = async (fastify) => {
+  await fastify.register(import("@fastify/compress"), {
+    encodings: ["gzip"],
+  });
+
   fastify.get("/users/me", async (req, res) => {
     const repo = (await createConnection()).getRepository(User);
 
     if (req.user != null) {
-      res.send(req.user);
+      return res.send(req.user);
     } else {
       const user = await repo.save(new User());
-      res.send(user);
+      return res.send(user);
     }
   });
 
@@ -55,7 +59,7 @@ export const apiRoute = async (fastify) => {
     req.user.balance += amount;
     await repo.save(req.user);
 
-    res.status(204).send();
+    return res.status(204).send();
   });
 
   fastify.get("/races", async (req, res) => {
@@ -97,7 +101,7 @@ export const apiRoute = async (fastify) => {
 
     const racesWithWebp = races.map((race) => jpgToWebp(race));
 
-    res.send({ races: racesWithWebp });
+    return res.send({ races: racesWithWebp });
   });
 
   fastify.get("/races/:raceId", async (req, res) => {
@@ -111,7 +115,7 @@ export const apiRoute = async (fastify) => {
       throw fastify.httpErrors.notFound();
     }
 
-    res.send(jpgToWebp(race));
+    return res.send(jpgToWebp(race));
   });
 
   fastify.get("/races/:raceId/betting-tickets", async (req, res) => {
@@ -131,7 +135,7 @@ export const apiRoute = async (fastify) => {
       },
     });
 
-    res.send({
+    return res.send({
       bettingTickets,
     });
   });
@@ -176,7 +180,7 @@ export const apiRoute = async (fastify) => {
     req.user.balance -= 100;
     await userRepo.save(req.user);
 
-    res.send(bettingTicket);
+    return res.send(bettingTicket);
   });
 
   fastify.get("/zengin/banklist", async (req, res) => {
@@ -184,7 +188,7 @@ export const apiRoute = async (fastify) => {
       code,
       name,
     }));
-    res.send(bankList);
+    return res.send(bankList);
   });
 
   fastify.get("/zengin/bank/:bankCode", async (req, res) => {
@@ -196,11 +200,11 @@ export const apiRoute = async (fastify) => {
     if (!bank) {
       throw fastify.httpErrors.badRequest();
     }
-    res.send(bank);
+    return res.send(bank);
   });
 
   fastify.post("/initialize", async (_req, res) => {
     await initialize();
-    res.status(204).send();
+    return res.status(204).send();
   });
 };

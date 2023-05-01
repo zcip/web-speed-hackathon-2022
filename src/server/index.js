@@ -1,6 +1,6 @@
 import "regenerator-runtime/runtime";
+import fastifySensible from "@fastify/sensible";
 import fastify from "fastify";
-import fastifySensible from "fastify-sensible";
 
 import { User } from "../model/index.js";
 
@@ -9,44 +9,35 @@ import { spaRoute } from "./routes/spa.js";
 import { createConnection } from "./typeorm/connection.js";
 import { initialize } from "./typeorm/initialize.js";
 
-const IS_PRODUCTION = process.env.NODE_ENV === "production";
+async function main() {
+  const server = fastify({ logger: true });
 
-const server = fastify({
-  logger: IS_PRODUCTION
-    ? false
-    : {
-        prettyPrint: {
-          ignore: "pid,hostname",
-          translateTime: "SYS:HH:MM:ss",
-        },
-      },
-});
-server.register(fastifySensible);
+  server.register(fastifySensible);
 
-server.addHook("onRequest", async (req, res) => {
-  const repo = (await createConnection()).getRepository(User);
+  server.addHook("onRequest", async (req, res) => {
+    const repo = (await createConnection()).getRepository(User);
 
-  const userId = req.headers["x-app-userid"];
-  if (userId !== undefined) {
-    const user = await repo.findOne(userId);
-    if (user === undefined) {
-      res.unauthorized();
-      return;
+    const userId = req.headers["x-app-userid"];
+    if (userId !== undefined) {
+      const user = await repo.findOne(userId);
+      if (user === undefined) {
+        res.unauthorized();
+        return;
+      }
+      req.user = user;
     }
-    req.user = user;
-  }
-});
+  });
 
-server.register(apiRoute, { prefix: "/api" });
-server.register(spaRoute);
+  server.register(apiRoute, { prefix: "/api" });
+  server.register(spaRoute);
 
-const start = async () => {
   try {
     await initialize();
-    await server.listen(process.env.PORT || 3000, "0.0.0.0");
+    await server.listen({ host: "0.0.0.0", port: process.env.PORT || 3000 });
   } catch (err) {
     server.log.error(err);
     process.exit(1);
   }
-};
-start();
+}
+
+main();
