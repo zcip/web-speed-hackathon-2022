@@ -31,6 +31,7 @@ const Item = ({ image, name, number }) => {
       <ImageW1H1
         alt={`${name}選手のプロフィール写真`}
         height={100}
+        loading="lazy"
         src={image}
         width={100}
       />
