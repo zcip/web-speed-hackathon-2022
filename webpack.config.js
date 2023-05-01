@@ -48,8 +48,8 @@ module.exports = (env, _argv) => {
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
-      new BundleAnalyzerPlugin(),
-    ],
+      env.development ? new BundleAnalyzerPlugin() : null,
+    ].filter(Boolean),
     resolve: {
       extensions: [".js", ".jsx"],
     },

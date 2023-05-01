@@ -1,4 +1,4 @@
-FROM node:16.18.0-alpine
+FROM node:20.0.0-alpine
 
 WORKDIR /web
 
@@ -14,12 +14,13 @@ COPY package.json ./
 COPY yarn.lock ./
 COPY .yarnrc.yml ./
 COPY .yarn/ ./.yarn/
-RUN --mount=type=cache,target=/var/cache/yarn \
-    YARN_CACHE_FOLDER=/var/cache/yarn yarn --frozen-lockfile
+# RUN --mount=type=cache,target=/var/cache/yarn \
+    # YARN_CACHE_FOLDER=/var/cache/yarn yarn --immutable
+RUN yarn install --immutable
 
 COPY . .
 
-RUN yarn build:prod
+RUN yarn build
 
 ENV PORT 3000
 EXPOSE 3000
