@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import React, { forwardRef, useCallback, useState } from "react";
+import styled, { keyframes } from "styled-components";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -12,6 +12,19 @@ import { jsonFetcher } from "../../../../utils/HttpUtils";
 
 const CANCEL = "cancel";
 const CHARGE = "charge";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const MotionDiv = styled.div`
+  animation: ${fadeIn} 0.5s ease-in;
+`;
 
 /**
  * @typedef Props
@@ -69,7 +82,10 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   );
 
   const { data: bankList } = useFetch("/api/zengin/banklist", jsonFetcher);
-  const { data: bank, error: bankError } = useFetch(bankCode ? `/api/zengin/bank/${bankCode}` : null, jsonFetcher);
+  const { data: bank, error: bankError } = useFetch(
+    bankCode ? `/api/zengin/bank/${bankCode}` : null,
+    jsonFetcher,
+  );
 
   const branch = bank?.branches?.[branchCode];
 
@@ -104,11 +120,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
               ))}
             </datalist>
 
-            {bank != null && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
-                銀行名: {bank.name}銀行
-              </motion.div>
-            )}
+            {bank != null && <MotionDiv>銀行名: {bank.name}銀行</MotionDiv>}
 
             <label>
               支店コード
@@ -120,7 +132,8 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </label>
 
             <datalist id="ChargeDialog-branch-list">
-              {bank != null && bankError === null && 
+              {bank != null &&
+                bankError === null &&
                 Object.values(bank.branches).map((branch) => (
                   <option key={branch.code} value={branch.code}>
                     {branch.name}
@@ -128,11 +141,7 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
                 ))}
             </datalist>
 
-            {branch && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
-                支店名: {branch.name}
-              </motion.div>
-            )}
+            {branch && <MotionDiv>支店名: {branch.name}</MotionDiv>}
 
             <label>
               口座番号
