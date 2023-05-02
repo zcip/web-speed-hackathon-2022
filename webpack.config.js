@@ -14,11 +14,11 @@ const PUBLIC_ROOT = abs("./public");
 const DIST_PUBLIC = abs("./dist/public");
 
 /** @type {Array<import('webpack').Configuration>} */
-module.exports = (env, _argv) => {
+module.exports = (env, { mode }) => {
   return {
-    devtool: env.production ? "source-map" : "eval",
+    devtool: mode === "production" ? "source-map" : "eval",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: env.production ? "production" : "development",
+    mode: mode === "production" ? "production" : "development",
     module: {
       rules: [
         {
@@ -48,7 +48,7 @@ module.exports = (env, _argv) => {
       new CopyPlugin({
         patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
       }),
-      env.development ? new BundleAnalyzerPlugin() : null,
+      mode === "development" ? new BundleAnalyzerPlugin() : null,
     ].filter(Boolean),
     resolve: {
       extensions: [".js", ".jsx"],
