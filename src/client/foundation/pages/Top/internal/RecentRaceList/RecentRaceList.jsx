@@ -1,10 +1,11 @@
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
-import {  ImageW1H1 } from "../../../../components/media/TrimmedImage";
+import { ImageW1H1 } from "../../../../components/media/TrimmedImage";
 import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
 import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
@@ -51,12 +52,18 @@ const Item = ({ race }) => {
 
   // 締切はリアルタイムで表示したい
   useEffect(() => {
-    const timer = setInterval(() => {
+    // 締め切りを過ぎていたら更新はしない
+    if (dayjs(race.closeAt).isBefore(new Date())) {
+      return null;
+    }
+
+    const timer = setTimeout(() => {
       setCloseAtText(formatCloseAt(race.closeAt));
-    }, 0);
+      // 更新間隔は1分なので1分ごとに更新
+    }, 1000 * 60);
 
     return () => {
-      clearInterval(timer);
+      clearTimeout(timer);
     };
   }, [race.closeAt]);
 
@@ -93,7 +100,12 @@ const Item = ({ race }) => {
 
         <Stack.Item grow={0} shrink={0}>
           <Stack horizontal alignItems="center" gap={Space * 2}>
-            <ImageW1H1 height={100} loading="lazy" src={race.image} width={100}/>
+            <ImageW1H1
+              height={100}
+              loading="lazy"
+              src={race.image}
+              width={100}
+            />
             <RaceButton to={`/races/${race.id}/race-card`}>投票</RaceButton>
           </Stack>
         </Stack.Item>
