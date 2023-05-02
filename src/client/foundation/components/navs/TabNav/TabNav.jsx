@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 import { BreakPoint, Color, Radius, Space } from "../../../styles/variables";
@@ -45,9 +45,9 @@ const Item = ({ "aria-current": ariaCurrent, children, to, ...rest }) => {
           {children}
         </a>
       ) : (
-        <Link aria-current={ariaCurrent} to={to} {...rest}>
+        <NavLink to={to} {...rest}>
           {children}
-        </Link>
+        </NavLink>
       )}
     </ItemWrapper>
   );

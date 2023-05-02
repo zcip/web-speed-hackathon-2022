@@ -1,9 +1,6 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 
-import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
-import { TabNav } from "../../../components/navs/TabNav";
 import { useRases } from "../../../layouts/RaseLayout.jsx";
 import { Space } from "../../../styles/variables";
 
@@ -12,19 +9,10 @@ import { PlayerPictureList } from "./internal/PlayerPictureList";
 
 /** @type {React.VFC} */
 export const RaceCard = () => {
-  const { raceId } = useParams();
   const { data } = useRases();
 
   return (
-    <Section>
-      <TabNav>
-        <TabNav.Item aria-current to={`/races/${raceId}/race-card`}>
-          出走表
-        </TabNav.Item>
-        <TabNav.Item to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
-        <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
-      </TabNav>
-
+    <>
       <Spacer mt={Space * 2} />
       <PlayerPictureList>
         {data.entries.map((entry) => (
@@ -39,6 +27,6 @@ export const RaceCard = () => {
 
       <Spacer mt={Space * 4} />
       <EntryTable entries={data.entries} />
-    </Section>
+    </>
   );
 };

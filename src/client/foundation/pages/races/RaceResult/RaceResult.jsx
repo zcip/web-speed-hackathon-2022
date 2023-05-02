@@ -1,9 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
-import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../../hooks/useAuthorizedFetch";
 import { Space } from "../../../styles/variables";
@@ -21,15 +19,7 @@ export const RaceResult = () => {
   );
 
   return (
-    <Section>
-      <TabNav>
-        <TabNav.Item to={`/races/${raceId}/race-card`}>出走表</TabNav.Item>
-        <TabNav.Item to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
-        <TabNav.Item aria-current to={`/races/${raceId}/result`}>
-          結果
-        </TabNav.Item>
-      </TabNav>
-
+    <>
       <Spacer mt={Space * 4} />
       <Heading as="h2">購入した買い目</Heading>
 
@@ -45,6 +35,6 @@ export const RaceResult = () => {
 
       <Spacer mt={Space * 2} />
       <RaceResultSection />
-    </Section>
+    </>
   );
 };

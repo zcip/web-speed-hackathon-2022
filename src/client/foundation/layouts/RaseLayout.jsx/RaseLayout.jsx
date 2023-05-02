@@ -6,6 +6,7 @@ import { Container } from "../../components/layouts/Container";
 import { Section } from "../../components/layouts/Section";
 import { Spacer } from "../../components/layouts/Spacer";
 import { ImageW16H9 } from "../../components/media/TrimmedImage";
+import { TabNav } from "../../components/navs/TabNav";
 import { Heading } from "../../components/typographies/Heading";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
@@ -26,8 +27,36 @@ export const RaseLayout = () => {
   const result = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const { data } = result;
 
-  if (data == null) {
-    return <Container>Loading...</Container>;
+  if (data == null && result.loading) {
+    return (
+      <Container>
+        <Spacer mt={Space * 2} />
+        <Heading as="h1">Loading...</Heading>
+        <p>開始 --:-- 締切 --:--</p>
+
+        <Spacer mt={Space * 2} />
+
+        <Section dark shrink>
+          <LiveBadge>Live</LiveBadge>
+          <Spacer mt={Space * 2} />
+          <ImageW16H9
+            height={225}
+            src="/assets/images/400x255.webp"
+            width={400}
+          />
+        </Section>
+
+        <Spacer mt={Space * 2} />
+
+        <Section>
+          <TabNav>
+            <TabNav.Item to={`/races/${raceId}/race-card`}>出走表</TabNav.Item>
+            <TabNav.Item to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
+            <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
+          </TabNav>
+        </Section>
+      </Container>
+    );
   }
 
   return (
@@ -47,7 +76,15 @@ export const RaseLayout = () => {
       </Section>
 
       <Spacer mt={Space * 2} />
-      <Outlet context={result} />
+
+      <Section>
+        <TabNav>
+          <TabNav.Item to={`/races/${raceId}/race-card`}>出走表</TabNav.Item>
+          <TabNav.Item to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
+          <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
+        </TabNav>
+        {data && <Outlet context={result} />}
+      </Section>
     </Container>
   );
 };
