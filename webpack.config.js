@@ -16,9 +16,9 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = (env, { mode }) => {
   return {
-    devtool: mode === "production" ? "source-map" : "eval",
+    devtool: mode !== "production" ? "source-map" : "eval",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
-    mode: mode === "production" ? "production" : "development",
+    mode,
     module: {
       rules: [
         {
