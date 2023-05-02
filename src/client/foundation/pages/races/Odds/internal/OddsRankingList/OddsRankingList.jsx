@@ -1,5 +1,3 @@
-import sortBy from "lodash-es/sortBy";
-import take from "lodash-es/take";
 import React from "react";
 import styled from "styled-components";
 
@@ -68,10 +66,8 @@ const RankNo = styled.div`
 /** @type {React.VFC<Props>} */
 export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
   // TODO: DB操作で行うとAPIの容量もjsの実行も減らせる/現状41.2kB
-  const sortedOdds = take(
-    sortBy(odds, (item) => item.odds),
-    50,
-  );
+  const sortedOdds = [...odds].sort((a, b) => a.odds - b.odds).slice(0, 50);
+
 
   return (
     <Wrapper>
