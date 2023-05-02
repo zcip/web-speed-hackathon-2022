@@ -67,7 +67,6 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.17.2",
     "@fastify/compress": "^6.2.1",
     "@fastify/sensible": "^5.2.0",
     "@fastify/static": "^6.10.1",
