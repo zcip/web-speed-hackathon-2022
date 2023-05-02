@@ -7659,7 +7659,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:6":
+"react-router-dom@npm:6.11.0":
   version: 6.11.0
   resolution: "react-router-dom@npm:6.11.0"
   dependencies:
@@ -9789,7 +9789,7 @@ __metadata:
     react: ^17.0.2
     react-dom: ^17.0.2
     react-helmet: ^6.1.0
-    react-router-dom: 6
+    react-router-dom: 6.11.0
     rimraf: ^3.0.2
     scaffdog: ^1.1.0
     sqlite3: ^5.1.2

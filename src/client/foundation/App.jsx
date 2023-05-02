@@ -1,9 +1,9 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 
 import { AuthContextProvider } from "./contexts/AuthContext";
-import { Routes } from "./routes";
+import { router } from "./routes";
 import { GlobalStyle } from "./styles/GlobalStyle";
 
 /** @type {React.VFC} */
@@ -12,9 +12,7 @@ export const App = () => {
     <StyleSheetManager disableCSSOMInjection>
       <AuthContextProvider>
         <GlobalStyle />
-        <BrowserRouter>
-          <Routes />
-        </BrowserRouter>
+        <RouterProvider router={router} />
       </AuthContextProvider>
     </StyleSheetManager>
   );
