@@ -7832,7 +7832,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regenerator-runtime@npm:^0.13.11, regenerator-runtime@npm:^0.13.9":
+"regenerator-runtime@npm:^0.13.11":
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 27481628d22a1c4e3ff551096a683b424242a216fee44685467307f14d58020af1e19660bf2e26064de946bad7eff28950eae9f8209d55723e2d9351e632bbb4
@@ -9790,7 +9790,6 @@ __metadata:
     react-dom: ^17.0.2
     react-helmet: ^6.1.0
     react-router-dom: 6
-    regenerator-runtime: ^0.13.9
     rimraf: ^3.0.2
     scaffdog: ^1.1.0
     sqlite3: ^5.1.2

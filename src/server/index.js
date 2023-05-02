@@ -1,4 +1,3 @@
-import "regenerator-runtime/runtime";
 import fastifySensible from "@fastify/sensible";
 import fastify from "fastify";
 
