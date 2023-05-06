@@ -2,6 +2,7 @@
 const path = require("path");
 
 const CopyPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
@@ -10,7 +11,6 @@ function abs(...args) {
 }
 
 const SRC_ROOT = abs("./src");
-const PUBLIC_ROOT = abs("./public");
 const DIST_PUBLIC = abs("./dist/public");
 
 /** @type {Array<import('webpack').Configuration>} */
@@ -21,13 +21,6 @@ module.exports = (env, { mode }) => {
     mode,
     module: {
       rules: [
-        {
-          resourceQuery: (value) => {
-            const query = new URLSearchParams(value);
-            return query.has("raw");
-          },
-          type: "asset/source",
-        },
         {
           exclude: /[\\/]esm[\\/]/,
           test: /\.jsx?$/,
@@ -41,12 +34,36 @@ module.exports = (env, { mode }) => {
       ],
     },
     name: "client",
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            chunks: "all",
+            name: "vendor",
+            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          },
+        },
+      },
+    },
     output: {
+      filename: mode === "development" ? "[name].js" : "[name].[chunkhash].js",
       path: DIST_PUBLIC,
+      publicPath: "/",
     },
     plugins: [
       new CopyPlugin({
-        patterns: [{ from: PUBLIC_ROOT, to: DIST_PUBLIC }],
+        patterns: [
+          {
+            from: "public",
+            globOptions: {
+              ignore: ["**/index.html"],
+            },
+          },
+        ],
+      }),
+      new HtmlWebpackPlugin({
+        filename: "index.html",
+        template: "public/index.html",
       }),
       mode === "development" ? new BundleAnalyzerPlugin() : null,
     ].filter(Boolean),
