@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
+const zlib = require("zlib");
 
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -66,7 +67,24 @@ module.exports = (env, { mode }) => {
         filename: "index.html",
         template: "public/index.html",
       }),
-      new CompressionPlugin(),
+      new CompressionPlugin({
+        algorithm: "gzip",
+        filename: "[path][base].gz",
+        minRatio: 0.8,
+        threshold: 10240,
+      }),
+      new CompressionPlugin({
+        algorithm: "brotliCompress",
+        compressionOptions: {
+          params: {
+            [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+          },
+        },
+        deleteOriginalAssets: false,
+        filename: "[path][base].br",
+        minRatio: 0.8,
+        threshold: 10240,
+      }),
       mode === "development"
         ? new BundleAnalyzerPlugin()
         : new BundleAnalyzerPlugin({ analyzerMode: "json" }),
