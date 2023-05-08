@@ -11,7 +11,7 @@ import { BettingTicketList } from "./internal/BettingTicketList";
 import { RaceResultSection } from "./internal/RaceResultSection";
 
 /** @type {React.VFC} */
-export const RaceResult = () => {
+export const Component = () => {
   const { raceId } = useParams();
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
@@ -38,3 +38,5 @@ export const RaceResult = () => {
     </>
   );
 };
+
+Component.displayName = "RaceResult"

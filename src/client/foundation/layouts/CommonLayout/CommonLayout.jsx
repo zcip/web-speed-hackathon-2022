@@ -4,7 +4,7 @@ import { Outlet, ScrollRestoration } from "react-router-dom";
 import { Footer } from "../../components/navs/Footer";
 import { Header } from "../../components/navs/Header/Header";
 
-export const CommonLayout = () => {
+export const Component = () => {
   return (
     <div>
       <Header />
@@ -18,3 +18,5 @@ export const CommonLayout = () => {
     </div>
   );
 };
+
+Component.dispalyName = 'CommonLayout'

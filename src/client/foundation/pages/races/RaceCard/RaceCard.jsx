@@ -1,14 +1,14 @@
 import React from "react";
 
 import { Spacer } from "../../../components/layouts/Spacer";
-import { useRases } from "../../../layouts/RaseLayout.jsx";
+import { useRases } from "../../../layouts/RaseLayout/index.js";
 import { Space } from "../../../styles/variables";
 
 import { EntryTable } from "./internal/EntryTable";
 import { PlayerPictureList } from "./internal/PlayerPictureList";
 
 /** @type {React.VFC} */
-export const RaceCard = () => {
+export const Component = () => {
   const { data } = useRases();
 
   return (
@@ -30,3 +30,5 @@ export const RaceCard = () => {
     </>
   );
 };
+
+Component.displayName = "RaceCard"

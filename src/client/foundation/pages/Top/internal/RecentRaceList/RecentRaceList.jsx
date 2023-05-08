@@ -57,17 +57,15 @@ const Item = ({ race }) => {
   useEffect(() => {
     // 締め切りを過ぎていたら更新はしない
     if (dayjs(race.closeAt).isBefore(new Date())) {
-      return null;
+      return undefined;
     }
 
     const timer = setTimeout(() => {
-      setCloseAtText(formatCloseAt(race.closeAt));
+      setCloseAtText(() => formatCloseAt(race.closeAt));
       // 更新間隔は1分なので1分ごとに更新
     }, 1000 * 60);
 
-    return () => {
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, [race.closeAt]);
 
   const {

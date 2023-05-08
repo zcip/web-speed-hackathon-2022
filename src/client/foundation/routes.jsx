@@ -5,22 +5,47 @@ import {
   Route,
 } from "react-router-dom";
 
-import { CommonLayout } from "./layouts/CommonLayout";
-import { RaseLayout } from "./layouts/RaseLayout.jsx";
-import { Top } from "./pages/Top";
-import { Odds } from "./pages/races/Odds";
-import { RaceCard } from "./pages/races/RaceCard";
-import { RaceResult } from "./pages/races/RaceResult";
+import { Component } from "./layouts/CommonLayout";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<CommonLayout />} path="/">
-      <Route index element={<Top />} />
-      <Route element={<Top />} path=":date" />
-      <Route element={<RaseLayout />} path="races/:raceId">
-        <Route element={<RaceCard />} path="race-card" />
-        <Route element={<Odds />} path="odds" />
-        <Route element={<RaceResult />} path="result" />
+    <Route element={<Component />} path="/">
+      <Route
+        index
+        lazy={() => import(/* webpackChunkName: "Top" */ "./pages/Top")}
+      />
+      <Route
+        lazy={() => import(/* webpackChunkName: "Top" */ "./pages/Top")}
+        path=":date"
+      />
+      <Route
+        lazy={() =>
+          import(/* webpackChunkName: "RaseLayout" */ "./layouts/RaseLayout")
+        }
+        path="races/:raceId"
+      >
+        <Route
+          lazy={() =>
+            import(
+              /* webpackChunkName: "rases-RaceCard" */ "./pages/races/RaceCard"
+            )
+          }
+          path="race-card"
+        />
+        <Route
+          lazy={() =>
+            import(/* webpackChunkName: "rases-Odds" */ "./pages/races/Odds")
+          }
+          path="odds"
+        />
+        <Route
+          lazy={() =>
+            import(
+              /* webpackChunkName: "rases-RaceResult" */ "./pages/races/RaceResult"
+            )
+          }
+          path="result"
+        />
       </Route>
     </Route>,
   ),

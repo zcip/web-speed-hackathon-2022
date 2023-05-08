@@ -22,7 +22,7 @@ const LiveBadge = styled.span`
   text-transform: uppercase;
 `;
 
-export const RaseLayout = () => {
+export const Component = () => {
   const { raceId } = useParams();
   const result = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const { data } = result;
@@ -88,6 +88,8 @@ export const RaseLayout = () => {
     </Container>
   );
 };
+
+Component.displayName = "RaseLayout"
 
 export function useRases() {
   return useOutletContext();

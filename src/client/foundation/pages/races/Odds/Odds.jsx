@@ -6,7 +6,7 @@ import styled from "styled-components";
 import SvgIcon from "../../../components/SvgIcon";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { Heading } from "../../../components/typographies/Heading";
-import { useRases } from "../../../layouts/RaseLayout.jsx";
+import { useRases } from "../../../layouts/RaseLayout/index.js";
 import { Color, Space } from "../../../styles/variables";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
@@ -26,7 +26,7 @@ const Callout = styled.aside`
 `;
 
 /** @type {React.VFC} */
-export const Odds = () => {
+export const Component = () => {
   const { raceId } = useParams();
   const { data } = useRases();
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
@@ -86,3 +86,5 @@ export const Odds = () => {
     </>
   );
 };
+
+Component.displayName = "Odds"
