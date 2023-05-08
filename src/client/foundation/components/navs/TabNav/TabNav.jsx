@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 import { BreakPoint, Color, Radius, Space } from "../../../styles/variables";
@@ -45,7 +45,7 @@ const Item = ({ "aria-current": ariaCurrent, children, to, ...rest }) => {
           {children}
         </a>
       ) : (
-        <NavLink to={to} {...rest}>
+        <NavLink preventScrollReset={true} to={to} {...rest}>
           {children}
         </NavLink>
       )}
