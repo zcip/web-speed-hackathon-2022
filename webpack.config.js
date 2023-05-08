@@ -5,6 +5,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const CompressionPlugin = require("compression-webpack-plugin");
 
 function abs(...args) {
   return path.join(__dirname, ...args);
@@ -65,6 +66,7 @@ module.exports = (env, { mode }) => {
         filename: "index.html",
         template: "public/index.html",
       }),
+      new CompressionPlugin(),
       mode === "development"
         ? new BundleAnalyzerPlugin()
         : new BundleAnalyzerPlugin({ analyzerMode: "json" }),
