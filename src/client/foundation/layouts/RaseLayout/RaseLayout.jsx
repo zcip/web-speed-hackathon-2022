@@ -41,6 +41,7 @@ export const Component = () => {
           <Spacer mt={Space * 2} />
           <ImageW16H9
             height={225}
+            loading="eager"
             src="/assets/images/400x255.webp"
             width={400}
           />
