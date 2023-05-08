@@ -1,28 +1,40 @@
-FROM node:20.0.0-alpine
+# syntax = docker/dockerfile:1
 
-WORKDIR /web
+# Adjust NODE_VERSION as desired
+ARG NODE_VERSION=20.1.0
+FROM node:${NODE_VERSION}-slim as base
+LABEL fly_launch_runtime="NodeJS"
+
+# NodeJS app lives here
+WORKDIR /app
+
+# Set production environment
+ENV NODE_ENV=production
 
 # set timezone
-RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
-    apk add --no-cache tzdata
-RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
-    apk del tzdata && \
-    echo "Asia/Tokyo" > /etc/timezone
+RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+
+# Throw-away build stage to reduce size of final image
+FROM base as build
 
 # install dependencies
-COPY package.json ./
-COPY yarn.lock ./
-COPY .yarnrc.yml ./
+COPY --link package.json yarn.lock .yarnrc.yml .
 COPY .yarn/ ./.yarn/
-# RUN --mount=type=cache,target=/var/cache/yarn \
-    # YARN_CACHE_FOLDER=/var/cache/yarn yarn --immutable
-RUN yarn install --immutable
 
-COPY . .
+RUN yarn install
 
+# Copy application code
+COPY --link . .
+
+ENV NODE_ENV "production"
 RUN yarn build
 
-ENV PORT 3000
-EXPOSE 3000
-ENTRYPOINT ["yarn"]
-CMD ["serve"]
+# Final stage for app image
+FROM base
+
+# Copy built application
+COPY --from=build /app /app
+
+ENV PORT 8080
+EXPOSE 8080
+CMD [ "node", "dist/server.js" ]

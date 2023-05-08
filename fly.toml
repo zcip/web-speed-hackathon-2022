@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for zcip-web-speed-hackathon-2022 on 2023-04-28T14:45:08+09:00
+# fly.toml app configuration file generated for zcip-web-speed-hackathon-2022 on 2023-05-08T16:05:15+09:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -18,7 +18,7 @@ processes = []
 
 [[services]]
   http_checks = []
-  internal_port = 3000
+  internal_port = 8080
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
