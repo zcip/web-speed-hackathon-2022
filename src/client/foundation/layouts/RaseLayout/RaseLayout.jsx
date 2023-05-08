@@ -89,7 +89,7 @@ export const Component = () => {
   );
 };
 
-Component.displayName = "RaseLayout"
+Component.displayName = "RaseLayout";
 
 export function useRases() {
   return useOutletContext();

@@ -39,4 +39,4 @@ export const Component = () => {
   );
 };
 
-Component.displayName = "RaceResult"
+Component.displayName = "RaceResult";

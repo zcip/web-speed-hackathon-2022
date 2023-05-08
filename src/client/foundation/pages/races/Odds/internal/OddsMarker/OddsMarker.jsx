@@ -18,5 +18,10 @@ const Wrapper = styled.span`
 /** @type {React.FC<Props>} */
 // eslint-disable-next-line react/display-name
 export const OddsMarker = React.memo(({ odds }) => {
-  return <Wrapper style={{['--odds-opacity']: Math.min(5 / odds, 1.0)}}> {odds.toFixed(1)}</Wrapper>;
+  return (
+    <Wrapper style={{ ["--odds-opacity"]: Math.min(5 / odds, 1.0) }}>
+      {" "}
+      {odds.toFixed(1)}
+    </Wrapper>
+  );
 });

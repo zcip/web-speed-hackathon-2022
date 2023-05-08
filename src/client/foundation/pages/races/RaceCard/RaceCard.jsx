@@ -31,4 +31,4 @@ export const Component = () => {
   );
 };
 
-Component.displayName = "RaceCard"
+Component.displayName = "RaceCard";

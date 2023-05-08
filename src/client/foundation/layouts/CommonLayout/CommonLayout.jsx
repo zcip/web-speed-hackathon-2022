@@ -19,4 +19,4 @@ export const Component = () => {
   );
 };
 
-Component.dispalyName = 'CommonLayout'
+Component.dispalyName = "CommonLayout";

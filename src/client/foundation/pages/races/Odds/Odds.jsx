@@ -87,4 +87,4 @@ export const Component = () => {
   );
 };
 
-Component.displayName = "Odds"
+Component.displayName = "Odds";
