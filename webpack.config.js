@@ -16,7 +16,7 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = (env, { mode }) => {
   return {
-    devtool: mode !== "production" ? "source-map" : "eval",
+    devtool: mode !== "production" ? "eval-source-map" : "souce-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
     mode,
     module: {
@@ -46,7 +46,7 @@ module.exports = (env, { mode }) => {
       },
     },
     output: {
-      filename: mode === "development" ? "[name].js" : "[name].[chunkhash].js",
+      filename: mode === "development" ? "[name].js" : "[chunkhash].js",
       path: DIST_PUBLIC,
       publicPath: "/",
     },
