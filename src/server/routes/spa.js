@@ -7,6 +7,8 @@ import fastifyStatic from "@fastify/static";
  */
 export const spaRoute = async (fastify) => {
   fastify.register(fastifyStatic, {
+    immutable: true,
+    maxAge: "1h",
     preCompressed: true,
     root: join(__dirname, "public"),
     wildcard: false,
@@ -17,6 +19,8 @@ export const spaRoute = async (fastify) => {
   });
 
   fastify.get("*", (_req, reply) => {
-    return reply.sendFile("index.html", join(__dirname, "public"));
+    return reply.sendFile("index.html", join(__dirname, "public"), {
+      immutable: false,
+    });
   });
 };
