@@ -6,8 +6,10 @@ import styled from "styled-components";
 import SvgIcon from "../../../components/SvgIcon";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { Heading } from "../../../components/typographies/Heading";
+import { useFetch } from "../../../hooks/useFetch";
 import { useRases } from "../../../layouts/RaseLayout/index.js";
 import { Color, Space } from "../../../styles/variables";
+import { jsonFetcher } from "../../../utils/HttpUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
@@ -31,6 +33,7 @@ export const Component = () => {
   const { data } = useRases();
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
+  const result = useFetch(`/api/races/${raceId}/odds`, jsonFetcher);
 
   const handleClickOdds = useCallback(
     /**
@@ -65,22 +68,26 @@ export const Component = () => {
       <Heading as="h2">オッズ表</Heading>
 
       <Spacer mt={Space * 2} />
-      <OddsTable
-        entries={data.entries}
-        isRaceClosed={isRaceClosed}
-        odds={data.trifectaOdds}
-        onClickOdds={handleClickOdds}
-      />
+      {result.data && (
+        <OddsTable
+          entries={data.entries}
+          isRaceClosed={isRaceClosed}
+          odds={result.data}
+          onClickOdds={handleClickOdds}
+        />
+      )}
 
       <Spacer mt={Space * 4} />
       <Heading as="h2">人気順</Heading>
 
       <Spacer mt={Space * 2} />
-      <OddsRankingList
-        isRaceClosed={isRaceClosed}
-        odds={data.trifectaOdds}
-        onClickOdds={handleClickOdds}
-      />
+      {result.data && (
+        <OddsRankingList
+          isRaceClosed={isRaceClosed}
+          odds={result.data}
+          onClickOdds={handleClickOdds}
+        />
+      )}
 
       <TicketVendingModal ref={modalRef} odds={oddsKeyToBuy} raceId={raceId} />
     </>
