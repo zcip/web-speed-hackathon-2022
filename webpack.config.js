@@ -16,7 +16,7 @@ const DIST_PUBLIC = abs("./dist/public");
 /** @type {Array<import('webpack').Configuration>} */
 module.exports = (env, { mode }) => {
   return {
-    devtool: mode !== "production" ? "eval-source-map" : "souce-map",
+    devtool: mode !== "production" ? "eval-source-map" : "source-map",
     entry: path.join(SRC_ROOT, "client/index.jsx"),
     mode,
     module: {
@@ -65,7 +65,9 @@ module.exports = (env, { mode }) => {
         filename: "index.html",
         template: "public/index.html",
       }),
-      mode === "development" ? new BundleAnalyzerPlugin() : null,
+      mode === "development"
+        ? new BundleAnalyzerPlugin()
+        : new BundleAnalyzerPlugin({ analyzerMode: "json" }),
     ].filter(Boolean),
     resolve: {
       extensions: [".js", ".jsx"],
