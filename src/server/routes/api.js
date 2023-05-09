@@ -1,10 +1,13 @@
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
 import zenginCode from "zengin-code";
 
 import { BettingTicket, Race, User } from "../../model/index.js";
 import { createConnection } from "../typeorm/connection.js";
 import { initialize } from "../typeorm/initialize.js";
+
+dayjs.extend(utc);
 
 /**
  * 与えられたレースオブジェクトの画像URLの拡張子をjpgからwebpに変更する

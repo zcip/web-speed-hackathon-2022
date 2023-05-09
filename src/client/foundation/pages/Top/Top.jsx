@@ -10,7 +10,6 @@ import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
-import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 import { difference } from "../../utils/lodash";
 
@@ -99,7 +98,12 @@ export const Component = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
+  const { data: raceData } = useFetch(
+    `/api/races?since=${dayjs(date).unix()}&until=${dayjs(date)
+      .endOf("day")
+      .unix()}`,
+    jsonFetcher,
+  );
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -115,14 +119,10 @@ export const Component = () => {
 
   const todayRaces =
     raceData != null
-      ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              dayjs(a.startAt) - dayjs(b.startAt),
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date),
-          )
+      ? [...raceData.races].sort(
+          (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
+            dayjs(a.startAt) - dayjs(b.startAt),
+        )
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
 

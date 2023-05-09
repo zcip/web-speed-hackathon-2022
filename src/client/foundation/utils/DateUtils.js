@@ -1,15 +1,6 @@
 import dayjs from "dayjs";
 
 /**
- * @param {string} dateLeft
- * @param {string} dateRight
- * @returns {boolean}
- */
-export const isSameDay = (dateLeft, dateRight) => {
-  return dayjs(dateLeft).isSame(dayjs(dateRight), "day");
-};
-
-/**
  *
  * @param {string} ts
  * @returns {string}
