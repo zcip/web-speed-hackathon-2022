@@ -27,53 +27,24 @@ export const Component = () => {
   const result = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const { data } = result;
 
-  if (data == null && result.loading) {
-    return (
-      <Container>
-        <Spacer mt={Space * 2} />
-        <Heading as="h1">Loading...</Heading>
-        <p>開始 --:-- 締切 --:--</p>
-
-        <Spacer mt={Space * 2} />
-
-        <Section dark shrink>
-          <LiveBadge>Live</LiveBadge>
-          <Spacer mt={Space * 2} />
-          <ImageW16H9
-            height={225}
-            loading="eager"
-            src="/assets/images/400x255.webp"
-            width={400}
-          />
-        </Section>
-
-        <Spacer mt={Space * 2} />
-
-        <Section>
-          <TabNav>
-            <TabNav.Item to={`/races/${raceId}/race-card`}>出走表</TabNav.Item>
-            <TabNav.Item to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
-            <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
-          </TabNav>
-        </Section>
-      </Container>
-    );
-  }
+  const name = result.loading ? "Loading..." : data.name;
+  const timer = result.loading
+    ? "開始 --:-- 締切 --:--"
+    : `開始 ${formatTime(data.startAt)} 締切 ${formatTime(data.closeAt)}`;
+  const imageSrc = result.loading ? "/assets/images/400x255.webp" : data.image;
 
   return (
     <Container>
       <Spacer mt={Space * 2} />
-      <Heading as="h1">{data.name}</Heading>
-      <p>
-        開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
-      </p>
+      <Heading as="h1">{name}</Heading>
+      <p>{timer}</p>
 
       <Spacer mt={Space * 2} />
 
       <Section dark shrink>
         <LiveBadge>Live</LiveBadge>
         <Spacer mt={Space * 2} />
-        <ImageW16H9 height={225} src={data.image} width={400} />
+        <ImageW16H9 height={225} loading="eager" src={imageSrc} width={400} />
       </Section>
 
       <Spacer mt={Space * 2} />
@@ -84,7 +55,7 @@ export const Component = () => {
           <TabNav.Item to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
           <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
         </TabNav>
-        {data && <Outlet context={result} />}
+        <Outlet context={result} />
       </Section>
     </Container>
   );

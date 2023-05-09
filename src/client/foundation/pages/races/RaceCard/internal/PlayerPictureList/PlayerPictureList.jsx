@@ -17,6 +17,25 @@ const PlayerName = styled.span`
   font-size: ${FontSize.SMALL};
 `;
 
+const DummyImg = styled.div`
+  display: block;
+  width: 100px;
+  height: 100px;
+  background: gray;
+`;
+
+export const PlaceholderItem = ({ number }) => {
+  return (
+    <Stack gap={Space * 1}>
+      <DummyImg />
+      <Stack horizontal alignItems="center" gap={Space / 2} wrap="wrap">
+        <PlayerNumber>{number}</PlayerNumber>
+        <PlayerName>---</PlayerName>
+      </Stack>
+    </Stack>
+  );
+};
+
 /**
  * @typedef ItemProps
  * @property {number} number

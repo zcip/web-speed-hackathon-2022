@@ -26,22 +26,20 @@ export const router = createBrowserRouter(
       >
         <Route
           lazy={() =>
-            import(
-              /* webpackChunkName: "rases-RaceCard" */ "./pages/races/RaceCard"
-            )
+            import(/* webpackChunkName: "RaceCard" */ "./pages/races/RaceCard")
           }
           path="race-card"
         />
         <Route
           lazy={() =>
-            import(/* webpackChunkName: "rases-Odds" */ "./pages/races/Odds")
+            import(/* webpackChunkName: "Odds" */ "./pages/races/Odds")
           }
           path="odds"
         />
         <Route
           lazy={() =>
             import(
-              /* webpackChunkName: "rases-RaceResult" */ "./pages/races/RaceResult"
+              /* webpackChunkName: "RaceResult" */ "./pages/races/RaceResult"
             )
           }
           path="result"
