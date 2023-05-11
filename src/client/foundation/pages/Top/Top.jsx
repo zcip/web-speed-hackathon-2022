@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -11,70 +11,10 @@ import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
-import { difference } from "../../utils/lodash";
 
 import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
-
-/**
- * @param {Model.Race[]} races
- * @returns {Model.Race[]}
- */
-function useTodayRacesWithAnimation(races) {
-  const [isRacesUpdate, setIsRacesUpdate] = useState(false);
-  const [racesToShow, setRacesToShow] = useState([]);
-  const numberOfRacesToShow = useRef(0);
-  const prevRaces = useRef(races);
-  const timer = useRef(null);
-
-  useEffect(() => {
-    const isRacesUpdate =
-      difference(
-        races.map((e) => e.id),
-        prevRaces.current.map((e) => e.id),
-      ).length !== 0;
-
-    prevRaces.current = races;
-    setIsRacesUpdate(isRacesUpdate);
-  }, [races]);
-
-  useEffect(() => {
-    if (!isRacesUpdate) {
-      return;
-    }
-    // 視覚効果 off のときはアニメーションしない
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRacesToShow(races);
-      return;
-    }
-
-    numberOfRacesToShow.current = 0;
-    if (timer.current !== null) {
-      clearInterval(timer.current);
-    }
-
-    timer.current = setInterval(() => {
-      if (numberOfRacesToShow.current >= races.length) {
-        clearInterval(timer.current);
-        return;
-      }
-
-      numberOfRacesToShow.current++;
-      setRacesToShow([...races].slice(0, numberOfRacesToShow.current));
-    }, 100);
-  }, [isRacesUpdate, races]);
-
-  useEffect(() => {
-    return () => {
-      if (timer.current !== null) {
-        clearInterval(timer.current);
-      }
-    };
-  }, []);
-
-  return racesToShow;
-}
 
 const ChargeButton = styled.button`
   background: ${Color.mono[700]};
@@ -98,7 +38,7 @@ export const Component = () => {
     authorizedJsonFetcher,
   );
 
-  const { data: raceData } = useFetch(
+  const { data: raceData, loading: raseLoading } = useFetch(
     `/api/races?since=${dayjs(date).unix()}&until=${dayjs(date)
       .endOf("day")
       .unix()}`,
@@ -117,14 +57,13 @@ export const Component = () => {
     revalidate();
   }, [revalidate]);
 
-  const todayRaces =
+  const todayRacesToShow =
     raceData != null
       ? [...raceData.races].sort(
           (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
             dayjs(a.startAt) - dayjs(b.startAt),
         )
       : [];
-  const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
 
   return (
     <Container>
@@ -147,10 +86,12 @@ export const Component = () => {
       <Spacer mt={Space * 2} />
       <section>
         <Heading as="h1">本日のレース</Heading>
+        {/* 要素取得中は、要素の高さを保つ */}
+        {raseLoading && <div style={{ minHeight: "90vh" }}></div>}
         {todayRacesToShow.length > 0 && (
           <RecentRaceList>
-            {todayRacesToShow.map((race) => (
-              <RecentRaceList.Item key={race.id} race={race} />
+            {todayRacesToShow.map((race, i) => (
+              <RecentRaceList.Item key={race.id} itemNumber={i} race={race} />
             ))}
           </RecentRaceList>
         )}

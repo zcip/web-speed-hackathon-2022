@@ -29,6 +29,7 @@ module.exports = (env, { mode }) => {
           use: {
             loader: "babel-loader",
             options: {
+              plugins: ["babel-plugin-styled-components"],
               presets: [["@babel/preset-env", {}], "@babel/preset-react"],
             },
           },
