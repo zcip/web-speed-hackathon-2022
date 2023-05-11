@@ -1,1 +1,3 @@
-export * from "./ChargeDialog";
+import { ChargeDialog } from "./ChargeDialog";
+
+export default ChargeDialog;

@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import React, { useCallback, useRef } from "react";
+import React, { Suspense, useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -12,9 +12,10 @@ import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
-import { ChargeDialog } from "./internal/ChargeDialog";
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
+
+const ChargeDialog = React.lazy(() => import("./internal/ChargeDialog"));
 
 const ChargeButton = styled.button`
   background: ${Color.mono[700]};
@@ -97,7 +98,14 @@ export const Component = () => {
         )}
       </section>
 
-      <ChargeDialog ref={chargeDialogRef} onComplete={handleCompleteCharge} />
+      {userData && (
+        <Suspense>
+          <ChargeDialog
+            ref={chargeDialogRef}
+            onComplete={handleCompleteCharge}
+          />
+        </Suspense>
+      )}
     </Container>
   );
 };
