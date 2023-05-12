@@ -49,6 +49,7 @@ module.exports = (env, { mode }) => {
       },
     },
     output: {
+      clean: true,
       filename: mode === "development" ? "[name].js" : "[chunkhash].js",
       path: DIST_PUBLIC,
       publicPath: "/",
@@ -59,7 +60,7 @@ module.exports = (env, { mode }) => {
           {
             from: "public",
             globOptions: {
-              ignore: ["**/index.html"],
+              ignore: ["**/*.html"],
             },
           },
         ],
@@ -67,6 +68,10 @@ module.exports = (env, { mode }) => {
       new HtmlWebpackPlugin({
         filename: "index.html",
         template: "public/index.html",
+      }),
+      new HtmlWebpackPlugin({
+        filename: "races.html",
+        template: "public/races.html",
       }),
       new CompressionPlugin({
         algorithm: "gzip",

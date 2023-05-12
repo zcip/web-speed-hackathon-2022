@@ -18,6 +18,18 @@ export const spaRoute = async (fastify) => {
     throw fastify.httpErrors.notFound();
   });
 
+  fastify.get("/races/:raceId/*", async (req, reply) => {
+    return reply.sendFile("races.html", join(__dirname, "public"), {
+      immutable: false,
+    });
+  });
+
+  fastify.get("/races", (_req, reply) => {
+    return reply.sendFile("index.html", join(__dirname, "public"), {
+      immutable: false,
+    });
+  });
+
   fastify.get("*", (_req, reply) => {
     return reply.sendFile("index.html", join(__dirname, "public"), {
       immutable: false,
